@@ -1,0 +1,16 @@
+version: '2'
+services:
+  webapi:
+    extends:
+      file: docker-compose.share.yml
+      service: webapi
+    container_name: geister_rails_development
+    environment:
+      RAILS_LOG_TO_STDOUT: 'true'
+      RAILS_ENV: development
+      API_SERVER_DATABASE_URL: mysql2://root@database:3306
+    volumes:
+      - ../server:/usr/src/app
+      - ../unity:/usr/src/unity
+    links:
+      - database

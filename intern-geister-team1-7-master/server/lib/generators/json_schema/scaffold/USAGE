@@ -1,0 +1,15 @@
+Description:
+    Generate scaffold from JSON Schema
+
+Example:
+    rails generate json_schema:scaffold Thing
+
+    This will create:
+        Controller: app/controllers/users_controller.rb
+        Model:      app/models/user.rb
+        Serializer: app/serializers/user_serializer.rb
+        Factory:    spec/factories/users.rb
+        Tests:      spec/controllers/users_controller_spec.rb
+                    spec/models/user_spec.rb
+                    spec/serializers/user_serializerspec.rb
+                    spec/requests/users_spec.rb

@@ -1,0 +1,9 @@
+Description:
+    Generate GeisterProtocol from named base
+
+Example:
+    rails generate json_schema:protocol Name attr1:string attr2:integer attr3:time
+
+    This will create:
+      lib/geister_protocol/thing.rb
+      spec/lib/geister_protocol/thing_spec.rb

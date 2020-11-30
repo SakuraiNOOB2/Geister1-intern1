@@ -1,0 +1,26 @@
+version: "3"
+services:
+    geister_server:
+        image: geister_server
+        ports:
+            - 8888:5000
+        env_file:
+            - .docker_env/geister_server_env.default
+        volumes:
+            - ./server:/usr/src/app
+        build:
+            context: .
+        depends_on:
+            - db # note:depends_onではdbの起動までは待ってくれないので必要なら自前で制御する
+
+    db:
+        image: mysql:5.7
+        volumes:
+            - mysql_volume:/var/lib/mysql
+            - ./mysql:/docker-entrypoint-initdb.d
+        env_file:
+            - .docker_env/mysql_env.default
+
+volumes:
+  mysql_volume:
+    driver: local

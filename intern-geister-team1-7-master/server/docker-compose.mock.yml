@@ -1,0 +1,10 @@
+version: '2'
+services:
+  mock:
+    extends:
+      file: docker-compose.share.yml
+      service: webapi
+    container_name: geister_mock
+    command: "specup schema.json --port=8080"
+    ports:
+      - "8080:8080"

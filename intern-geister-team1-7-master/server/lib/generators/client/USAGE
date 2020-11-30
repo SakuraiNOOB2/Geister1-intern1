@@ -1,0 +1,9 @@
+Description:
+    Generate csharp code from JSON Schema
+
+Example:
+    rails generate client Thing
+
+    This will create:
+        unity/Assets/Scripts/Utility/HTTP/ApiClient.cs
+        unity/Assets/Scripts/Utility/HTTP/ApiClassDef.cs

@@ -1,0 +1,22 @@
+version: '2'
+services:
+  database:
+    image: mysql:5.6
+    container_name: geister_mysql
+    environment: 
+      MYSQL_ALLOW_EMPTY_PASSWORD: 'yes'
+    ports:
+      - '3306'
+
+  webapi:
+    extends:
+      file: docker-compose.share.yml
+      service: webapi
+    container_name: geister_rails_production
+    environment:
+      RAILS_LOG_TO_STDOUT: 'true'
+      RAILS_ENV: production
+      API_SERVER_DATABASE_URL: mysql2://root@database:3306
+      SECRET_KEY_BASE: b7d361582df862a845312431d7837c54572151ccd9588be24161b5a643bc4261c0b2b1c2da0afafa38231b9b268b22cabfaea917d5fa7f934b32e747c4a5a7e1
+    links:
+      - database

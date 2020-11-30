@@ -1,0 +1,62 @@
+<%# coding: UTF-8 -%>
+<%= "\uFEFF" %>using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine.Events;
+using Protocol;
+
+namespace HTTP{
+	public class ApiClient : MonoBehaviour {
+
+		private static ApiClient instance;
+
+		private ApiClient(){}
+
+		public static ApiClient Instance {
+			get {
+				if( instance == null ) {
+
+					GameObject go = new GameObject("ApiClient");
+					instance = go.AddComponent<ApiClient>();
+				}
+				return instance;
+			}
+		}
+
+		HTTPRequester requester;
+		string ipAddr;
+
+		public void SetAccessToken(string token){
+			requester.SetAccessToken (token);
+		}
+
+		public void SetIpAddress(string ipAddress){
+			ipAddr = ipAddress;
+		}
+
+		void Awake()
+		{
+			requester = new HTTPRequester(this);
+			DontDestroyOnLoad(this);
+		}
+
+<% config[:links].each_with_index do |link, index| -%>
+		/// <summary>
+		/// <%= link.request %>
+		/// <%= link.request.href %>へ<%= link.request.method %>でリクエストを行なう
+		/// </summary>
+		public void <%= link.request %>(<%= link.request %> param){
+<%= link.request.to_apiclient_template(indent: 3) %>
+		}
+
+		/// <summary>
+		/// <%= link.response %>
+		/// <%= link.request.href %>へ<%= link.request.method %>でリクエストを行った時のコールバックを登録する
+		/// </summary>
+		public UnityAction<<%= link.response %>> <%= link.response %>;
+  <%- unless index == (config[:links].size - 1) -%>
+
+  <%- end -%>
+<% end -%>
+	}
+}

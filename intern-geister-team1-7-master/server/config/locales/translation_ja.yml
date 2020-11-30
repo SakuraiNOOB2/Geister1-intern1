@@ -1,0 +1,127 @@
+ja:
+  activemodel:
+    models:
+      game_starter: ゲームの開始を行うモデル
+      room_factory: ルームの生成を行うモデル
+      geister/prepare_piece: 駒の準備を行うモデル
+      geister/piece_preparation: 駒の準備のパラメータモデル
+
+    attributes:
+      geister/move_piece/executor:
+        user: ユーザ
+        piece: 駒
+        point_x: X座標
+        point_y: Y座標
+        game: ゲーム
+
+      geister/prepare_piece/piece_preparation:
+        point_x: X座標
+        point_y: Y座標
+        kind: 駒種別
+        owner_user: 所有ユーザ
+        game: 駒の所属ゲーム
+
+      geister/prepare_piece/executor:
+        user: 駒の準備を行うユーザ
+        game: 駒の準備を行うゲーム
+        piece_preparations: 駒の初期配置リクエスト
+
+    errors:
+      models:
+        geister/move_piece/executor:
+          attributes:
+            piece:
+              goal_piece_is_not_good: good以外の駒はゴールできません
+              own_piece_exist: 自分の駒が存在しています
+              is_captured: は取られた駒です
+              distance_is_not_one: は1マスしか動かせません
+
+            game:
+              is_not_playing: がplayingではありません
+
+            user:
+              is_not_turn_mover_user: あなたのターンではありません
+              wrong_user: あなたの駒ではありません
+
+            point_y:
+              inclusion: は範囲外です
+
+            point_x:
+              inclusion: は範囲外です
+
+        geister/prepare_piece/executor:
+          attributes:
+            piece_preparations:
+              invalid: の値が不正です
+              wrong_kind: の駒種別が不正です
+              wrong_kind_count: の駒種別の数が不正です
+              point_duplicate: の駒位置が重複しています
+              wrong_length: の数が%{count}ではありません
+              wrong_kind_inclusion: に駒種別が不正なものが含まれています
+              out_of_range_inclusion: に座標が不正なものが含まれています
+
+        geister/prepare_piece/piece_preparation:
+          attributes:
+            point_y:
+              inclusion: は範囲外です
+
+            point_x:
+              inclusion: は範囲外です
+
+            kind:
+              inclusion: は不正な値です
+
+  activerecord:
+    models:
+      game: ゲーム
+      piece: 駒
+      player_entry: ルームへのプレイヤーエントリー
+      room: ルーム
+      spectator_entry: ルームへの観客エントリー
+      user: ユーザ
+      user_session: ユーザセッション
+
+    attributes:
+      game:
+        first_mover_user: 先手ユーザ
+        last_mover_user: 後手ユーザ
+        room: ルーム
+        status: ルームの状態
+        turn_mover_user: 現在の手番ユーザ
+
+      piece:
+        captured: 駒が取られているかどうか
+        game: ゲーム
+        kind: 駒種別
+        owner_user: 所有ユーザ
+        point_x: X座標
+        point_y: Y座標
+
+      player_entry:
+        index: ルームごとのインデックス
+        lock_version: ロックバージョン
+        room: エントリー先のルーム
+        user: エントリーしているユーザ
+
+      room:
+        game: ゲーム
+        player_entries: ルームへのプレイヤーエントリー
+        spectator_entries: ルームへの観客エントリー
+        status: ルームの状態
+
+      spectator_entry:
+        room: エントリー先のルーム
+        user: エントリーしているユーザ
+
+      user:
+        name: ユーザ名
+        password_digest: ダイジェスト化されたパスワード
+        player_entry: プレイヤーエントリー
+        spectator_entry: 観客エントリー
+        user_sessions: ユーザセッション
+
+      user_session:
+        access_token: アクセストークン
+        active: アクティブなセッションか
+        expires_at: 有効期限
+        user: ユーザ

@@ -1,0 +1,11 @@
+version: '2'
+services:
+  generator:
+    extends:
+      file: docker-compose.share.yml
+      service: webapi
+    container_name: geister_generator
+    command: "rails generate client --force"
+    volumes:
+      - ../server:/usr/src/app
+      - ../unity:/usr/src/unity

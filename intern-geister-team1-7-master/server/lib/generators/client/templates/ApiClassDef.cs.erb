@@ -1,0 +1,46 @@
+<%= "\uFEFF" %>using UnityEngine;
+using System;
+using System.Collections;
+using System.Collections.Generic;
+
+namespace Protocol{
+<% config[:links].each_with_index do |link, index| -%>
+	[Serializable]
+	public class <%= link.request %>{
+  <%- link.request.attributes.each do |attribute| -%>
+    <%- unless attribute.serializable? -%>
+		[NonSerialized]
+    <%- end -%>
+		public <%= attribute.type %> <%= attribute.name %>;
+  <%- end -%>
+	}
+
+	[Serializable]
+	public class <%= link.response %>{
+  <%- link.response.attributes.each do |attribute| -%>
+    <%- unless attribute.serializable? -%>
+		[NonSerialized]
+    <%- end -%>
+		public <%= attribute.type %> <%= attribute.name %>;
+    <%- if attribute.array? -%>
+		public <%= link.response %>(<%= attribute.type %> <%= attribute.name %>)
+		{
+			this.<%= attribute.name %> = <%= attribute.name %>;
+		}
+    <%- end -%>
+  <%- end -%>
+	}
+
+  <%- link.response.info_definitions.each do |info| -%>
+	[Serializable]
+	public class <%= info %>{
+    <%- info.attributes.each do |attribute| -%>
+		public <%= attribute.type -%> <%= attribute.name -%>;
+    <%- end -%>
+	}
+  <%- end -%>
+  <%- unless index == (config[:links].size - 1) -%>
+
+  <%- end -%>
+<% end -%>
+}

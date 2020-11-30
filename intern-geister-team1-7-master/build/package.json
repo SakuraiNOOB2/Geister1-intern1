@@ -1,0 +1,63 @@
+{
+  "description": "virtualbox image(ova) for geister development",
+  "min_packer_version": "1.0.0",
+  "provisioners": [{
+    "type": "shell",
+    "execute_command": "echo 'geister' | sudo --stdin bash -eux '{{.Path}}'",
+    "script": "setup.sh"
+  }],
+  "builders": [
+    {
+      "type": "virtualbox-iso",
+      "guest_os_type": "Ubuntu_64",
+      "vm_name": "geister-{{isotime \"20060102150405\"}}",
+      "output_directory": "output-{{isotime \"20060102150405\"}}",
+      "iso_url": "http://ftp.jaist.ac.jp/pub/Linux/ubuntu-releases/16.04/ubuntu-16.04.3-server-amd64.iso",
+      "iso_checksum": "a06cd926f5855d4f21fb4bc9978a35312f815fbda0d0ef7fdc846861f4fc4600",
+      "iso_checksum_type": "sha256",
+      "guest_additions_path": "VBoxGuestAdditions_{{.Version}}.iso",
+      "boot_wait": "10s",
+      "ssh_username": "geister",
+      "ssh_password": "geister",
+      "ssh_port": 22,
+      "ssh_wait_timeout": "10000s",
+      "shutdown_command": "echo 'geister' | sudo -S shutdown -P now",
+      "hard_drive_interface": "sata",
+      "format": "ova",
+      "disk_size": 20000,
+      "vboxmanage": [
+         [ "modifyvm", "{{.Name}}", "--memory", "2048" ],
+         [ "modifyvm", "{{.Name}}", "--cpus", "2" ],
+         [ "modifyvm", "{{.Name}}", "--natpf1", "ssh,tcp,,2222,,22" ],
+         [ "modifyvm", "{{.Name}}", "--natpf1", "webapi,tcp,,3000,,3000" ]
+       ],
+      "http_directory": "http",
+      "boot_command": [
+        "<enter><wait><f6><esc><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "<bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs><bs>",
+        "/install/vmlinuz<wait>",
+        " auto<wait>",
+        " console-setup/ask_detect=false<wait>",
+        " console-setup/layoutcode=us<wait>",
+        " console-setup/modelcode=pc105<wait>",
+        " debconf/frontend=noninteractive<wait>",
+        " debian-installer=en_US.UTF-8<wait>",
+        " fb=false<wait>",
+        " initrd=/install/initrd.gz<wait>",
+        " kbd-chooser/method=js<wait>",
+        " keyboard-configuration/layout=Japanese<wait>",
+        " keyboard-configuration/variant=Japanese<wait>",
+        " locale=en_US.UTF-8<wait>",
+        " netcfg/get_domain=vm<wait>",
+        " netcfg/get_hostname=geister-server<wait>",
+        " grub-installer/bootdev=/dev/sda<wait>",
+        " noapic<wait>",
+        " preseed/url=http://{{ .HTTPIP }}:{{ .HTTPPort }}/preseed.cfg<wait>",
+        " -- <wait>",
+        "<enter><wait>"
+      ]
+    }
+  ]
+}

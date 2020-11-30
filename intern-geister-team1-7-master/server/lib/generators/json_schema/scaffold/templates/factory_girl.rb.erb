@@ -1,0 +1,7 @@
+FactoryGirl.define do
+  factory :<%= singular_name %> do
+<% config[:property_names].each do |property_name| -%>
+    <%= property_name %> GeisterProtocol::<%= singular_name.camelize %>.params(:<%= property_name %>)
+<% end -%>
+  end
+end

@@ -1,0 +1,136 @@
+module GeisterProtocol
+  class <%= singular_name.camelize %>
+    include ::JsonWorld::DSL
+    include GeisterProtocol::Parameterizable
+
+    title '<%= singular_name %>'
+    description '<%= singular_name %> for geister'
+
+    param(
+      :id,
+      description: 'unique identifier of <%= singular_name %>',
+      example: 1,
+      type: Integer
+    )
+
+<%- config[:attributes].each do |attribute| -%>
+    param(
+      :<%= attribute.name %>,
+      description: '<%= attribute.name %> of <%= singular_name %>',
+      example: 'example',
+      type: <%= attribute.type.to_s.camelize %>
+    )
+
+<%- end -%>
+<%- if config[:actions].index? -%>
+  <%- properties = config[:attributes].map { |a| "#{a.name}: params(:#{a.name})" } -%>
+    param(
+      :<%= plural_name %>,
+      description: 'list of <%= plural_name %>',
+      example: Array.new(5) { { id: params(:id), <%= properties.join(",") %>, created_at: params(:created_at), updated_at: params(:updated_at) } },
+      items: {
+        type: Hash,
+        properties: {
+          id: params(:id),
+<%= properties.map { |property| property.indent(10) }.join("\n") << ',' %>
+          created_at: params(:created_at),
+          updated_at: params(:updated_at)
+        }
+      },
+      type: Array
+    )
+
+<%- end -%>
+    param(
+      :created_at,
+      description: 'when <%= singular_name %> was created',
+      format: 'date-time',
+      example: Time.gm(2016, 1, 1, 1).iso8601,
+      type: Time
+    )
+
+    param(
+      :updated_at,
+      description: 'when <%= singular_name %> was last updated',
+      format: 'date-time',
+      example: Time.gm(2016, 1, 1, 2).iso8601,
+      type: Time
+    )
+
+    property :id, params(:id)
+<%- config[:attributes].each do |attribute| -%>
+    property :<%= attribute.name %>, params(:<%= attribute.name %>)
+<%- end -%>
+    property :created_at, params(:created_at)
+    property :updated_at, params(:updated_at)
+<%- if config[:actions].index? -%>
+
+    link(
+      :index_<%= plural_name %>,
+      description: 'Get <%= plural_name %>',
+      path: '/api/<%= plural_name %>',
+      method: 'GET',
+      rel: 'self',
+      target_schema: {
+        # TODO: define response schema or remove this
+      }
+    )
+<%- end -%>
+<%- if config[:actions].show? -%>
+
+    link(
+      :show_<%= singular_name %>,
+      description: 'Get a single <%= singular_name %>',
+      path: '/api/<%= plural_name %>/:id',
+      method: 'GET',
+      rel: 'self',
+      target_schema: {
+        # TODO: define response schema or remove this
+      }
+    )
+<%- end -%>
+<%- if config[:actions].create? -%>
+
+    link(
+      :create_<%= singular_name %>,
+      description: 'Create a new <%= singular_name %>',
+      path: '/api/<%= plural_name %>',
+      method: 'POST',
+      rel: 'create',
+      parameters: {
+        # TODO: define request parameter schema or remove this
+      },
+      target_schema: {
+        # TODO: define response schema or remove this
+      }
+    )
+<%- end -%>
+<%- if config[:actions].update? -%>
+
+      :update_user,
+      description: 'Update a <%= singular_name %>',
+      path: '/api/<%= singular_name %>',
+      method: 'PUT',
+      rel: 'self',
+      parameters: {
+        # TODO: define request parameter schema or remove this
+      },
+      target_schema: {
+        # TODO: define response schema or remove this
+      }
+<%- end -%>
+<%- if config[:actions].destroy? -%>
+
+    link(
+      :destroy_<%= singular_name %>,
+      description: 'Delete a <%= singular_name %>',
+      path: '/api/<%= singular_name %>',
+      method: 'DELETE',
+      rel: 'self',
+      target_schema: {
+        # TODO: define response schema or remove this
+      }
+    )
+<%- end -%>
+  end
+end

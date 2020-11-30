@@ -1,0 +1,13 @@
+require 'rails_helper'
+
+RSpec.describe "<%= plural_name.camelize %>", type: :request do
+  include_context 'request describer'
+
+  let(:serialized_resource) { <%= plural_name.camelize %>Serializer.new(resource).to_json }
+  let(:resource) { create :<%= singular_name %> }
+
+<% config[:links].each do |link| -%>
+  describe '<%= link[:method] %> <%= link[:href] %>' do
+  end
+<% end -%>
+end

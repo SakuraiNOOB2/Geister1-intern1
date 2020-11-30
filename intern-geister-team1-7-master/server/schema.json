@@ -1,0 +1,1258 @@
+{
+  "description": "API for Geister in DOKIDOKI GROOVEWORKS",
+  "properties": {
+    "user": {
+      "description": "ユーザ情報",
+      "links": [
+        {
+          "description": "ユーザ情報の取得",
+          "href": "/api/users/:user_id",
+          "method": "GET",
+          "rel": "self",
+          "targetSchema": {
+            "properties": {
+              "user_id": {
+                "description": "ユーザID",
+                "example": 1,
+                "type": "integer"
+              },
+              "name": {
+                "description": "ユーザ名(英数字4文字以上16文字以下)",
+                "example": "alice",
+                "pattern": "\\A[a-zA-Z0-9]{4,16}\\Z",
+                "type": "string"
+              },
+              "created_at": {
+                "description": "ユーザの作成日時",
+                "example": "2016-01-01T00:00:00Z",
+                "format": "date-time",
+                "type": "string"
+              },
+              "updated_at": {
+                "description": "ユーザの更新日時",
+                "example": "2016-01-01T00:00:00Z",
+                "format": "date-time",
+                "type": "string"
+              }
+            },
+            "required": [
+              "user_id",
+              "name",
+              "created_at",
+              "updated_at"
+            ]
+          },
+          "title": "show_user"
+        },
+        {
+          "description": "ユーザの作成",
+          "href": "/api/users",
+          "method": "POST",
+          "rel": "create",
+          "schema": {
+            "properties": {
+              "name": {
+                "description": "ユーザ名(英数字4文字以上16文字以下)",
+                "example": "alice",
+                "pattern": "\\A[a-zA-Z0-9]{4,16}\\Z",
+                "type": "string"
+              },
+              "password": {
+                "description": "パスワード（英数字8文字以上16文字以下）",
+                "example": "password1234",
+                "pattern": "\\A[a-zA-Z0-9]{8,16}\\Z",
+                "type": "string"
+              }
+            },
+            "required": [
+              "name",
+              "password"
+            ]
+          },
+          "targetSchema": {
+            "properties": {
+              "user_id": {
+                "description": "ユーザID",
+                "example": 1,
+                "type": "integer"
+              },
+              "name": {
+                "description": "ユーザ名(英数字4文字以上16文字以下)",
+                "example": "alice",
+                "pattern": "\\A[a-zA-Z0-9]{4,16}\\Z",
+                "type": "string"
+              },
+              "created_at": {
+                "description": "ユーザの作成日時",
+                "example": "2016-01-01T00:00:00Z",
+                "format": "date-time",
+                "type": "string"
+              },
+              "updated_at": {
+                "description": "ユーザの更新日時",
+                "example": "2016-01-01T00:00:00Z",
+                "format": "date-time",
+                "type": "string"
+              }
+            },
+            "required": [
+              "user_id",
+              "name",
+              "created_at",
+              "updated_at"
+            ]
+          },
+          "title": "create_user"
+        }
+      ],
+      "properties": {
+        "user_id": {
+          "description": "ユーザID",
+          "example": 1,
+          "type": "integer"
+        },
+        "name": {
+          "description": "ユーザ名(英数字4文字以上16文字以下)",
+          "example": "alice",
+          "pattern": "\\A[a-zA-Z0-9]{4,16}\\Z",
+          "type": "string"
+        },
+        "password": {
+          "description": "パスワード（英数字8文字以上16文字以下）",
+          "example": "password1234",
+          "pattern": "\\A[a-zA-Z0-9]{8,16}\\Z",
+          "type": "string"
+        },
+        "created_at": {
+          "description": "ユーザの作成日時",
+          "example": "2016-01-01T00:00:00Z",
+          "format": "date-time",
+          "type": "string"
+        },
+        "updated_at": {
+          "description": "ユーザの更新日時",
+          "example": "2016-01-01T00:00:00Z",
+          "format": "date-time",
+          "type": "string"
+        }
+      },
+      "required": [
+        "user_id",
+        "name",
+        "password",
+        "created_at",
+        "updated_at"
+      ],
+      "title": "user"
+    },
+    "user_session": {
+      "description": "ユーザセッション情報。ユーザの作成とログイン以外の全てのリクエストはログインしている必要がある。ユーザセッションを作成することでログイン、削除することでログアウトの処理を行える。",
+      "links": [
+        {
+          "description": "ユーザセッションの作成（ログイン）",
+          "href": "/api/user_sessions",
+          "method": "POST",
+          "rel": "create",
+          "schema": {
+            "properties": {
+              "name": {
+                "description": "ユーザ名(英数字4文字以上16文字以下)",
+                "example": "alice",
+                "pattern": "\\A[a-zA-Z0-9]{4,16}\\Z",
+                "type": "string"
+              },
+              "password": {
+                "description": "パスワード（英数字8文字以上16文字以下）",
+                "example": "password1234",
+                "pattern": "\\A[a-zA-Z0-9]{8,16}\\Z",
+                "type": "string"
+              }
+            },
+            "required": [
+              "name",
+              "password"
+            ]
+          },
+          "targetSchema": {
+            "properties": {
+              "user_session_id": {
+                "description": "ユーザセッションID",
+                "example": 1,
+                "type": "integer"
+              },
+              "access_token": {
+                "description": "アクセストークン。認証が必要なリクエストの際、AUTHORIZATIONヘッダーに `Token token=\\\"アクセストークン\\\"` の形式で指定する。",
+                "example": "f9425bc7de66d2e78de46a53",
+                "pattern": "\\A[a-zA-Z0-9]{24}\\Z",
+                "type": "string"
+              },
+              "user_id": {
+                "description": "ユーザID",
+                "example": 1,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "user_session_id",
+              "access_token",
+              "user_id"
+            ]
+          },
+          "title": "create_user_session"
+        },
+        {
+          "description": "ユーザセッションの削除（ログアウト）",
+          "href": "/api/user_sessions/:user_session_id",
+          "method": "DELETE",
+          "rel": "self",
+          "targetSchema": {
+            "properties": {
+              "user_id": {
+                "description": "ユーザID",
+                "example": 1,
+                "type": "integer"
+              },
+              "name": {
+                "description": "ユーザ名(英数字4文字以上16文字以下)",
+                "example": "alice",
+                "pattern": "\\A[a-zA-Z0-9]{4,16}\\Z",
+                "type": "string"
+              },
+              "created_at": {
+                "description": "ユーザの作成日時",
+                "example": "2016-01-01T00:00:00Z",
+                "format": "date-time",
+                "type": "string"
+              },
+              "updated_at": {
+                "description": "ユーザの更新日時",
+                "example": "2016-01-01T00:00:00Z",
+                "format": "date-time",
+                "type": "string"
+              }
+            },
+            "required": [
+              "user_id",
+              "name",
+              "created_at",
+              "updated_at"
+            ]
+          },
+          "title": "destroy_user_session"
+        }
+      ],
+      "title": "user_session"
+    },
+    "room": {
+      "description": "ルーム情報",
+      "links": [
+        {
+          "description": "ルーム情報の取得",
+          "href": "/api/rooms/:room_id",
+          "method": "GET",
+          "rel": "self",
+          "targetSchema": {
+            "properties": {
+              "room_id": {
+                "description": "ルームID",
+                "example": 1,
+                "type": "integer"
+              },
+              "status": {
+                "description": "ルーム状態（waiting,playing,finishedのいずれか。waiting: 対戦相手待ち、 playing: プレイ中、 fisnihed: 決着）",
+                "example": "waiting",
+                "type": "string"
+              },
+              "game_id": {
+                "description": "部屋で行われるゲームのID(まだゲームが開始されていない時は0)",
+                "example": 1,
+                "type": "integer"
+              },
+              "owner_name": {
+                "description": "ユーザ名(英数字4文字以上16文字以下)",
+                "example": "alice",
+                "pattern": "\\A[a-zA-Z0-9]{4,16}\\Z",
+                "type": "string"
+              },
+              "created_at": {
+                "description": "ルームの作成日時",
+                "example": "2016-01-01T01:00:00Z",
+                "format": "date-time",
+                "type": "string"
+              },
+              "updated_at": {
+                "description": "ルームの更新日時",
+                "example": "2016-01-01T02:00:00Z",
+                "format": "date-time",
+                "type": "string"
+              }
+            },
+            "required": [
+              "room_id",
+              "status",
+              "game_id",
+              "owner_name",
+              "created_at",
+              "updated_at"
+            ]
+          },
+          "title": "show_room"
+        },
+        {
+          "description": "ルームの作成",
+          "href": "/api/rooms",
+          "method": "POST",
+          "rel": "create",
+          "targetSchema": {
+            "properties": {
+              "player_entry_id": {
+                "description": "プレイヤーエントリーID",
+                "example": 1,
+                "type": "integer"
+              },
+              "room_id": {
+                "description": "ルームID",
+                "example": 1,
+                "type": "integer"
+              },
+              "user_id": {
+                "description": "ユーザID",
+                "example": 1,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "player_entry_id",
+              "room_id",
+              "user_id"
+            ]
+          },
+          "title": "create_room"
+        },
+        {
+          "description": "finishedでない全てのルーム情報の取得",
+          "href": "/api/rooms",
+          "method": "GET",
+          "rel": "self",
+          "targetSchema": {
+            "properties": {
+              "rooms": {
+                "description": "list of room",
+                "example": [
+                  {
+                    "room_id": 1,
+                    "status": "waiting",
+                    "owner_name": "ownerA",
+                    "game_id": 1,
+                    "created_at": "2016-01-01T00:00:00Z",
+                    "updated_at": "2016-01-01T01:00:00Z"
+                  },
+                  {
+                    "room_id": 2,
+                    "status": "playing",
+                    "owner_name": "ownerB",
+                    "game_id": 2,
+                    "created_at": "2016-01-01T01:00:00Z",
+                    "updated_at": "2016-01-01T02:00:00Z"
+                  },
+                  {
+                    "room_id": 3,
+                    "status": "finished",
+                    "owner_name": "ownerC",
+                    "game_id": 3,
+                    "created_at": "2016-01-01T02:00:00Z",
+                    "updated_at": "2016-01-01T03:00:00Z"
+                  },
+                  {
+                    "room_id": 4,
+                    "status": "waiting",
+                    "owner_name": "ownerD",
+                    "game_id": 4,
+                    "created_at": "2016-01-01T03:00:00Z",
+                    "updated_at": "2016-01-01T04:00:00Z"
+                  },
+                  {
+                    "room_id": 5,
+                    "status": "playing",
+                    "owner_name": "ownerE",
+                    "game_id": 5,
+                    "created_at": "2016-01-01T04:00:00Z",
+                    "updated_at": "2016-01-01T05:00:00Z"
+                  }
+                ],
+                "items": {
+                  "properties": {
+                    "room_id": {
+                      "description": "ルームID",
+                      "example": 1,
+                      "type": "integer"
+                    },
+                    "status": {
+                      "description": "ルーム状態（waiting,playing,finishedのいずれか。waiting: 対戦相手待ち、 playing: プレイ中、 fisnihed: 決着）",
+                      "example": "waiting",
+                      "type": "string"
+                    },
+                    "game_id": {
+                      "description": "部屋で行われるゲームのID(まだゲームが開始されていない時は0)",
+                      "example": 1,
+                      "type": "integer"
+                    },
+                    "owner_name": {
+                      "description": "ユーザ名(英数字4文字以上16文字以下)",
+                      "example": "alice",
+                      "pattern": "\\A[a-zA-Z0-9]{4,16}\\Z",
+                      "type": "string"
+                    },
+                    "created_at": {
+                      "description": "ルームの作成日時",
+                      "example": "2016-01-01T01:00:00Z",
+                      "format": "date-time",
+                      "type": "string"
+                    },
+                    "updated_at": {
+                      "description": "ルームの更新日時",
+                      "example": "2016-01-01T02:00:00Z",
+                      "format": "date-time",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "room_id",
+                    "status",
+                    "game_id",
+                    "owner_name",
+                    "created_at",
+                    "updated_at"
+                  ],
+                  "type": "object"
+                },
+                "type": "array"
+              }
+            },
+            "required": [
+              "rooms"
+            ]
+          },
+          "title": "index_rooms"
+        }
+      ],
+      "properties": {
+        "room_id": {
+          "description": "ルームID",
+          "example": 1,
+          "type": "integer"
+        },
+        "status": {
+          "description": "ルーム状態（waiting,playing,finishedのいずれか。waiting: 対戦相手待ち、 playing: プレイ中、 fisnihed: 決着）",
+          "example": "waiting",
+          "type": "string"
+        },
+        "owner_name": {
+          "description": "ユーザ名(英数字4文字以上16文字以下)",
+          "example": "alice",
+          "pattern": "\\A[a-zA-Z0-9]{4,16}\\Z",
+          "type": "string"
+        },
+        "game_id": {
+          "description": "部屋で行われるゲームのID(まだゲームが開始されていない時は0)",
+          "example": 1,
+          "type": "integer"
+        },
+        "created_at": {
+          "description": "ルームの作成日時",
+          "example": "2016-01-01T01:00:00Z",
+          "format": "date-time",
+          "type": "string"
+        },
+        "updated_at": {
+          "description": "ルームの更新日時",
+          "example": "2016-01-01T02:00:00Z",
+          "format": "date-time",
+          "type": "string"
+        }
+      },
+      "required": [
+        "room_id",
+        "status",
+        "owner_name",
+        "game_id",
+        "created_at",
+        "updated_at"
+      ],
+      "title": "room"
+    },
+    "player_entry": {
+      "description": "ルームへのプレイヤーとしてのエントリー情報。ユーザは観戦者／プレイヤーあわせて1つのエントリーしか出来ない",
+      "links": [
+        {
+          "description": "ルームへプレイヤーとしてエントリーする",
+          "href": "/api/rooms/:room_id/player_entries",
+          "method": "POST",
+          "rel": "create",
+          "targetSchema": {
+            "properties": {
+              "player_entry_id": {
+                "description": "プレイヤーエントリーID",
+                "example": 1,
+                "type": "integer"
+              },
+              "room_id": {
+                "description": "ルームID",
+                "example": 1,
+                "type": "integer"
+              },
+              "user_id": {
+                "description": "ユーザID",
+                "example": 1,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "player_entry_id",
+              "room_id",
+              "user_id"
+            ]
+          },
+          "title": "create_player_entry"
+        },
+        {
+          "description": "ルームへのプレイヤーエントリーを削除する（ルームから退出する）",
+          "href": "/api/player_entries/:player_entry_id",
+          "method": "DELETE",
+          "rel": "self",
+          "targetSchema": {
+            "properties": {
+              "player_entry_id": {
+                "description": "プレイヤーエントリーID",
+                "example": 1,
+                "type": "integer"
+              },
+              "room_id": {
+                "description": "ルームID",
+                "example": 1,
+                "type": "integer"
+              },
+              "user_id": {
+                "description": "ユーザID",
+                "example": 1,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "player_entry_id",
+              "room_id",
+              "user_id"
+            ]
+          },
+          "title": "destroy_player_entry"
+        }
+      ],
+      "properties": {
+        "player_entry_id": {
+          "description": "プレイヤーエントリーID",
+          "example": 1,
+          "type": "integer"
+        },
+        "room_id": {
+          "description": "ルームID",
+          "example": 1,
+          "type": "integer"
+        },
+        "user_id": {
+          "description": "ユーザID",
+          "example": 1,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "player_entry_id",
+        "room_id",
+        "user_id"
+      ],
+      "title": "player_entry"
+    },
+    "spectator_entry": {
+      "description": "ルームへの観戦者としてのエントリー情報。ユーザは観戦者／プレイヤーあわせて1つのエントリーしか出来ない",
+      "links": [
+        {
+          "description": "ルームへ観戦者としてエントリーする",
+          "href": "/api/rooms/:room_id/spectator_entries",
+          "method": "POST",
+          "rel": "create",
+          "targetSchema": {
+            "properties": {
+              "spectator_entry_id": {
+                "description": "観戦者エントリーID",
+                "example": 1,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "spectator_entry_id"
+            ]
+          },
+          "title": "create_spectator_entry"
+        },
+        {
+          "description": "ルームへの観戦者エントリーを削除する（ルームから退出する）",
+          "href": "/api/spectator_entries/:spectator_entry_id",
+          "method": "DELETE",
+          "rel": "self",
+          "targetSchema": {
+            "properties": {
+              "spectator_entry_id": {
+                "description": "観戦者エントリーID",
+                "example": 1,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "spectator_entry_id"
+            ]
+          },
+          "title": "destroy_spectator_entry"
+        }
+      ],
+      "properties": {
+        "spectator_entry_id": {
+          "description": "観戦者エントリーID",
+          "example": 1,
+          "type": "integer"
+        }
+      },
+      "required": [
+        "spectator_entry_id"
+      ],
+      "title": "spectator_entry"
+    },
+    "game": {
+      "description": "ゲーム情報",
+      "links": [
+        {
+          "description": "ゲーム情報の取得",
+          "href": "/api/games/:game_id",
+          "method": "GET",
+          "rel": "self",
+          "targetSchema": {
+            "properties": {
+              "game_id": {
+                "description": "ゲームID",
+                "example": 1,
+                "type": "integer"
+              },
+              "turn_mover_user_id": {
+                "description": "現在の手番ユーザのID",
+                "example": 1,
+                "type": "integer"
+              },
+              "turn_count": {
+                "description": "現在のターン（ゲーム開始前は0）",
+                "example": 1,
+                "type": "integer"
+              },
+              "winner_user_id": {
+                "description": "勝利ユーザのID(まだ勝敗が決まっていない場合は0)",
+                "example": 1,
+                "type": "integer"
+              },
+              "first_mover_user_id": {
+                "description": "先手ユーザのID",
+                "example": 1,
+                "type": "integer"
+              },
+              "last_mover_user_id": {
+                "description": "後手ユーザのID",
+                "example": 2,
+                "type": "integer"
+              },
+              "status": {
+                "description": "ゲーム状態 (preparing, playing, finished, exited のいずれか。preparing: 準備中、playing: プレイ中、 finished: 決着、 exited: 相手が退出した)",
+                "example": "preparing",
+                "type": "string"
+              }
+            },
+            "required": [
+              "game_id",
+              "turn_mover_user_id",
+              "turn_count",
+              "first_mover_user_id",
+              "last_mover_user_id",
+              "status"
+            ]
+          },
+          "title": "show_game"
+        },
+        {
+          "description": "駒の初期配置を送信する",
+          "href": "/api/games/:game_id/preparation",
+          "method": "POST",
+          "rel": "create",
+          "schema": {
+            "properties": {
+              "piece_preparations": {
+                "example": [
+                  {
+                    "point_x": 2,
+                    "point_y": 1,
+                    "kind": "good"
+                  },
+                  {
+                    "point_x": 3,
+                    "point_y": 1,
+                    "kind": "evil"
+                  },
+                  {
+                    "point_x": 4,
+                    "point_y": 1,
+                    "kind": "good"
+                  },
+                  {
+                    "point_x": 5,
+                    "point_y": 1,
+                    "kind": "evil"
+                  },
+                  {
+                    "point_x": 2,
+                    "point_y": 2,
+                    "kind": "good"
+                  },
+                  {
+                    "point_x": 3,
+                    "point_y": 2,
+                    "kind": "evil"
+                  },
+                  {
+                    "point_x": 4,
+                    "point_y": 2,
+                    "kind": "good"
+                  },
+                  {
+                    "point_x": 5,
+                    "point_y": 2,
+                    "kind": "evil"
+                  }
+                ],
+                "items": {
+                  "properties": {
+                    "point_x": {
+                      "description": "X座標（0~7） 先手ユーザから見て左が1。盤面は1~6だが、駒が盤外に出れるよう四隅のみ0と7が有効",
+                      "example": 1,
+                      "type": "integer"
+                    },
+                    "point_y": {
+                      "description": "Y座標（1~6） 先手ユーザから見て下が1",
+                      "example": 1,
+                      "type": "integer"
+                    },
+                    "kind": {
+                      "description": "駒の種類(good, evil)",
+                      "example": "good",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "point_x",
+                    "point_y",
+                    "kind"
+                  ],
+                  "type": "object"
+                },
+                "type": "array"
+              }
+            },
+            "required": [
+              "piece_preparations"
+            ]
+          },
+          "targetSchema": {
+            "properties": {
+              "piece_preparations": {
+                "example": [
+                  {
+                    "point_x": 2,
+                    "point_y": 1,
+                    "kind": "good"
+                  },
+                  {
+                    "point_x": 3,
+                    "point_y": 1,
+                    "kind": "evil"
+                  },
+                  {
+                    "point_x": 4,
+                    "point_y": 1,
+                    "kind": "good"
+                  },
+                  {
+                    "point_x": 5,
+                    "point_y": 1,
+                    "kind": "evil"
+                  },
+                  {
+                    "point_x": 2,
+                    "point_y": 2,
+                    "kind": "good"
+                  },
+                  {
+                    "point_x": 3,
+                    "point_y": 2,
+                    "kind": "evil"
+                  },
+                  {
+                    "point_x": 4,
+                    "point_y": 2,
+                    "kind": "good"
+                  },
+                  {
+                    "point_x": 5,
+                    "point_y": 2,
+                    "kind": "evil"
+                  }
+                ],
+                "items": {
+                  "properties": {
+                    "point_x": {
+                      "description": "X座標（0~7） 先手ユーザから見て左が1。盤面は1~6だが、駒が盤外に出れるよう四隅のみ0と7が有効",
+                      "example": 1,
+                      "type": "integer"
+                    },
+                    "point_y": {
+                      "description": "Y座標（1~6） 先手ユーザから見て下が1",
+                      "example": 1,
+                      "type": "integer"
+                    },
+                    "kind": {
+                      "description": "駒の種類(good, evil)",
+                      "example": "good",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "point_x",
+                    "point_y",
+                    "kind"
+                  ],
+                  "type": "object"
+                },
+                "type": "array"
+              }
+            },
+            "required": [
+              "piece_preparations"
+            ]
+          },
+          "title": "prepare_game"
+        }
+      ],
+      "properties": {
+        "game_id": {
+          "description": "ゲームID",
+          "example": 1,
+          "type": "integer"
+        },
+        "turn_mover_user_id": {
+          "description": "現在の手番ユーザのID",
+          "example": 1,
+          "type": "integer"
+        },
+        "turn_count": {
+          "description": "現在のターン（ゲーム開始前は0）",
+          "example": 1,
+          "type": "integer"
+        },
+        "winner_user_id": {
+          "description": "勝利ユーザのID(まだ勝敗が決まっていない場合は0)",
+          "example": 1,
+          "type": "integer"
+        },
+        "first_mover_user_id": {
+          "description": "先手ユーザのID",
+          "example": 1,
+          "type": "integer"
+        },
+        "last_mover_user_id": {
+          "description": "後手ユーザのID",
+          "example": 2,
+          "type": "integer"
+        },
+        "status": {
+          "description": "ゲーム状態 (preparing, playing, finished, exited のいずれか。preparing: 準備中、playing: プレイ中、 finished: 決着、 exited: 相手が退出した)",
+          "example": "preparing",
+          "type": "string"
+        }
+      },
+      "required": [
+        "game_id",
+        "turn_mover_user_id",
+        "turn_count",
+        "first_mover_user_id",
+        "last_mover_user_id",
+        "status"
+      ],
+      "title": "game"
+    },
+    "piece": {
+      "description": "駒情報",
+      "links": [
+        {
+          "description": "駒一覧の取得",
+          "href": "/api/games/:game_id/pieces",
+          "method": "GET",
+          "rel": "self",
+          "targetSchema": {
+            "properties": {
+              "pieces": {
+                "description": "駒一覧",
+                "example": [
+                  {
+                    "piece_id": 1,
+                    "point_x": 2,
+                    "point_y": 1,
+                    "owner_user_id": 1,
+                    "captured": false,
+                    "kind": "good"
+                  },
+                  {
+                    "piece_id": 2,
+                    "point_x": 3,
+                    "point_y": 1,
+                    "owner_user_id": 1,
+                    "captured": false,
+                    "kind": "evil"
+                  },
+                  {
+                    "piece_id": 3,
+                    "point_x": 4,
+                    "point_y": 1,
+                    "owner_user_id": 1,
+                    "captured": false,
+                    "kind": "good"
+                  },
+                  {
+                    "piece_id": 4,
+                    "point_x": 5,
+                    "point_y": 1,
+                    "owner_user_id": 1,
+                    "captured": false,
+                    "kind": "evil"
+                  },
+                  {
+                    "piece_id": 5,
+                    "point_x": 2,
+                    "point_y": 2,
+                    "owner_user_id": 1,
+                    "captured": false,
+                    "kind": "good"
+                  },
+                  {
+                    "piece_id": 6,
+                    "point_x": 3,
+                    "point_y": 2,
+                    "owner_user_id": 1,
+                    "captured": false,
+                    "kind": "evil"
+                  },
+                  {
+                    "piece_id": 7,
+                    "point_x": 4,
+                    "point_y": 2,
+                    "owner_user_id": 1,
+                    "captured": false,
+                    "kind": "good"
+                  },
+                  {
+                    "piece_id": 8,
+                    "point_x": 5,
+                    "point_y": 2,
+                    "owner_user_id": 1,
+                    "captured": false,
+                    "kind": "evil"
+                  },
+                  {
+                    "piece_id": 9,
+                    "point_x": 2,
+                    "point_y": 5,
+                    "owner_user_id": 2,
+                    "captured": false,
+                    "kind": "unknown"
+                  },
+                  {
+                    "piece_id": 10,
+                    "point_x": 3,
+                    "point_y": 5,
+                    "owner_user_id": 2,
+                    "captured": false,
+                    "kind": "unknown"
+                  },
+                  {
+                    "piece_id": 11,
+                    "point_x": 4,
+                    "point_y": 5,
+                    "owner_user_id": 2,
+                    "captured": false,
+                    "kind": "unknown"
+                  },
+                  {
+                    "piece_id": 12,
+                    "point_x": 5,
+                    "point_y": 5,
+                    "owner_user_id": 2,
+                    "captured": false,
+                    "kind": "unknown"
+                  },
+                  {
+                    "piece_id": 13,
+                    "point_x": 2,
+                    "point_y": 6,
+                    "owner_user_id": 2,
+                    "captured": false,
+                    "kind": "unknown"
+                  },
+                  {
+                    "piece_id": 14,
+                    "point_x": 3,
+                    "point_y": 6,
+                    "owner_user_id": 2,
+                    "captured": false,
+                    "kind": "unknown"
+                  },
+                  {
+                    "piece_id": 15,
+                    "point_x": 4,
+                    "point_y": 6,
+                    "owner_user_id": 2,
+                    "captured": false,
+                    "kind": "unknown"
+                  },
+                  {
+                    "piece_id": 16,
+                    "point_x": 5,
+                    "point_y": 6,
+                    "owner_user_id": 2,
+                    "captured": false,
+                    "kind": "unknown"
+                  }
+                ],
+                "items": {
+                  "properties": {
+                    "piece_id": {
+                      "description": "駒ID",
+                      "example": 1,
+                      "type": "integer"
+                    },
+                    "point_x": {
+                      "description": "X座標（0~7） 先手ユーザから見て左が1。盤面は1~6だが、駒が盤外に出れるよう四隅のみ0と7が有効",
+                      "example": 1,
+                      "type": "integer"
+                    },
+                    "point_y": {
+                      "description": "Y座標（1~6） 先手ユーザから見て下が1",
+                      "example": 1,
+                      "type": "integer"
+                    },
+                    "owner_user_id": {
+                      "description": "所有者のユーザID",
+                      "example": 1,
+                      "type": "integer"
+                    },
+                    "captured": {
+                      "description": "盤から除外されているか",
+                      "example": false,
+                      "type": "boolean"
+                    },
+                    "kind": {
+                      "description": "駒の種類（good, evil, unknown)",
+                      "example": "good",
+                      "type": "string"
+                    }
+                  },
+                  "required": [
+                    "piece_id",
+                    "point_x",
+                    "point_y",
+                    "owner_user_id",
+                    "captured",
+                    "kind"
+                  ],
+                  "type": "object"
+                },
+                "type": "array"
+              }
+            },
+            "required": [
+              "pieces"
+            ]
+          },
+          "title": "index_pieces"
+        },
+        {
+          "description": "駒情報の取得",
+          "href": "/api/pieces/:piece_id",
+          "method": "GET",
+          "rel": "self",
+          "targetSchema": {
+            "properties": {
+              "piece_id": {
+                "description": "駒ID",
+                "example": 1,
+                "type": "integer"
+              },
+              "point_x": {
+                "description": "X座標（0~7） 先手ユーザから見て左が1。盤面は1~6だが、駒が盤外に出れるよう四隅のみ0と7が有効",
+                "example": 1,
+                "type": "integer"
+              },
+              "point_y": {
+                "description": "Y座標（1~6） 先手ユーザから見て下が1",
+                "example": 1,
+                "type": "integer"
+              },
+              "owner_user_id": {
+                "description": "所有者のユーザID",
+                "example": 1,
+                "type": "integer"
+              },
+              "captured": {
+                "description": "盤から除外されているか",
+                "example": false,
+                "type": "boolean"
+              },
+              "kind": {
+                "description": "駒の種類（good, evil, unknown)",
+                "example": "good",
+                "type": "string"
+              }
+            },
+            "required": [
+              "piece_id",
+              "point_x",
+              "point_y",
+              "owner_user_id",
+              "captured",
+              "kind"
+            ]
+          },
+          "title": "show_piece"
+        },
+        {
+          "description": "駒情報の更新（レスポンスは更新後の駒の情報）",
+          "href": "/api/pieces/:piece_id",
+          "method": "PUT",
+          "rel": "self",
+          "schema": {
+            "properties": {
+              "point_x": {
+                "description": "X座標（0~7） 先手ユーザから見て左が1。盤面は1~6だが、駒が盤外に出れるよう四隅のみ0と7が有効",
+                "example": 1,
+                "type": "integer"
+              },
+              "point_y": {
+                "description": "Y座標（1~6） 先手ユーザから見て下が1",
+                "example": 1,
+                "type": "integer"
+              }
+            },
+            "required": [
+              "point_x",
+              "point_y"
+            ]
+          },
+          "targetSchema": {
+            "properties": {
+              "piece_id": {
+                "description": "駒ID",
+                "example": 1,
+                "type": "integer"
+              },
+              "point_x": {
+                "description": "X座標（0~7） 先手ユーザから見て左が1。盤面は1~6だが、駒が盤外に出れるよう四隅のみ0と7が有効",
+                "example": 1,
+                "type": "integer"
+              },
+              "point_y": {
+                "description": "Y座標（1~6） 先手ユーザから見て下が1",
+                "example": 1,
+                "type": "integer"
+              },
+              "owner_user_id": {
+                "description": "所有者のユーザID",
+                "example": 1,
+                "type": "integer"
+              },
+              "captured": {
+                "description": "盤から除外されているか",
+                "example": false,
+                "type": "boolean"
+              },
+              "kind": {
+                "description": "駒の種類（good, evil, unknown)",
+                "example": "good",
+                "type": "string"
+              }
+            },
+            "required": [
+              "piece_id",
+              "point_x",
+              "point_y",
+              "owner_user_id",
+              "captured",
+              "kind"
+            ]
+          },
+          "title": "update_piece"
+        }
+      ],
+      "properties": {
+        "piece_id": {
+          "description": "駒ID",
+          "example": 1,
+          "type": "integer"
+        },
+        "point_x": {
+          "description": "X座標（0~7） 先手ユーザから見て左が1。盤面は1~6だが、駒が盤外に出れるよう四隅のみ0と7が有効",
+          "example": 1,
+          "type": "integer"
+        },
+        "point_y": {
+          "description": "Y座標（1~6） 先手ユーザから見て下が1",
+          "example": 1,
+          "type": "integer"
+        },
+        "owner_user_id": {
+          "description": "所有者のユーザID",
+          "example": 1,
+          "type": "integer"
+        },
+        "captured": {
+          "description": "盤から除外されているか",
+          "example": false,
+          "type": "boolean"
+        },
+        "kind": {
+          "description": "駒の種類（good, evil, unknown)",
+          "example": "good",
+          "type": "string"
+        }
+      },
+      "required": [
+        "piece_id",
+        "point_x",
+        "point_y",
+        "owner_user_id",
+        "captured",
+        "kind"
+      ],
+      "title": "piece"
+    }
+  },
+  "required": [
+    "user",
+    "user_session",
+    "room",
+    "player_entry",
+    "spectator_entry",
+    "game",
+    "piece"
+  ],
+  "title": "API for Geister"
+}

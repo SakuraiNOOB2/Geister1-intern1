@@ -1,0 +1,62 @@
+require 'rails_helper'
+
+describe GeisterProtocol::<%= singular_name.camelize %>, type: :request do
+  include_context 'rack mock'
+  include_context 'request describer'
+<%- if config[:actions].index? -%>
+
+  describe 'GET /api/<%= plural_name %>' do
+    let(:responses) { GeisterProtocol::<%= singular_name.camelize %>.example_hash(:<%= plural_name %>) }
+
+    it 'returns 200 and correct response' do
+      expect(response.body).to be_json_as(responses)
+      expect(response).to have_http_status(:success)
+    end
+  end
+<%- end -%>
+<%- if config[:actions].show? -%>
+
+  describe 'GET /api/<%= plural_name %>/:id' do
+    let(:id) { 1 }
+    let(:responses) { GeisterProtocol::<%= singular_name.camelize %>.example_hash(<%= config[:attributes].join(', ') %>) }
+
+    it 'returns 200 and correct response' do
+      expect(response.body).to be_json_as(responses)
+      expect(response).to have_http_status(:success)
+    end
+  end
+<%- end -%>
+<%- if config[:actions].create? -%>
+
+  describe 'POST /api/<%= plural_name %>' do
+    let(:responses) { GeisterProtocol::<%= singular_name.camelize %>.example_hash(<%= config[:attributes].join(', ') %>) }
+
+    it 'returns 201 and correct response' do
+      expect(response.body).to be_json_as(responses)
+      expect(response).to have_http_status(:created)
+    end
+  end
+<%- end -%>
+<%- if config[:actions].update? -%>
+
+  describe 'UPDATE /api/<%= singular_name %>' do
+    let(:responses) { GeisterProtocol::<%= singular_name.camelize %>.example_hash(<%= config[:attributes].join(', ') %>) }
+
+    it 'returns 200 and correct response' do
+      expect(response.body).to be_json_as(responses)
+      expect(response).to have_http_status(:success)
+    end
+  end
+<%- end -%>
+<%- if config[:actions].delete? -%>
+
+  describe 'DELETE /api/<%= singular_name %>' do
+    let(:responses) { GeisterProtocol::<%= singular_name.camelize %>.example_hash(<%= config[:attributes].join(', ') %>) }
+
+    it 'returns 200 and correct response' do
+      expect(response.body).to be_json_as(responses)
+      expect(response).to have_http_status(:success)
+    end
+  end
+<%- end -%>
+end

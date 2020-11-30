@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+
+require 'bundler/setup'
+require 'active_support'
+require 'active_support/core_ext'
+require 'json_world'
+require 'jdoc'
+ROOT_DIR = File.expand_path('../', File.dirname(__FILE__))
+ActiveSupport::Dependencies.autoload_paths << File.expand_path('lib', ROOT_DIR)
+
+json_schema = GeisterProtocol.to_json_schema
+markdown = Jdoc::Generator.call(JSON.parse(json_schema))
+
+File.write(File.expand_path('schema.json', ROOT_DIR), json_schema)
+File.write(File.expand_path('schema.md', ROOT_DIR), markdown)

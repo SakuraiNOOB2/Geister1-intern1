@@ -1,0 +1,8 @@
+version: '2'
+services:
+  webapi:
+    build: .
+    image: geister_rails
+    command: "rails server --bind=0.0.0.0 --pid=/tmp/server.pid"
+    ports:
+      - "3000:3000"
